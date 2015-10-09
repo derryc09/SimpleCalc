@@ -8,7 +8,7 @@
 //  This is a console program where users can do some simple or extended calculations.
 //  Users can do simple calculations (+,-,*,/,%) either on multiple or single lines.
 //  The syntax for multiple lines input is: "number". Return. "expression". Return. "number".
-//  The syntax for single line input is: "number expression number". Return.
+//  The syntax for single line input is: "number. space. expression. space. number". Return.
 
 //  Users can calcualte extended calculations using the following functions:
 //  factorials use "fact", average use "avg", or to count the numbers use "count".
@@ -99,7 +99,12 @@ while (play.lowercaseString == "y") {
     // Converts double values to int if results are whole numbers. 
     // Prints results.
     if(avgStatus == 1){
-        print("Result: \(resultDouble)");
+        if (resultDouble % 1 == 0){
+            var myIntValue : Int = Int(resultDouble)
+            print("Result: \(myIntValue)");
+        } else {
+            print("Result: \(resultDouble)");
+        }
     } else if (result % 1 == 0){
         var myIntValue : Int = Int(result)
         print("Result: \(myIntValue)");
