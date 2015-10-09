@@ -13,7 +13,7 @@
 //  Users can calcualte extended calculations using the following functions:
 //  factorials use "fact", average use "avg", or to count the numbers use "count".
 //  Users can use these functions by following this syntax:
-//  "number number number...function".
+//  "number number number...function" Ex: "2 4 6 8 10 avg" Results = 6.0.
 
 
 import Foundation
@@ -28,16 +28,18 @@ func input() -> String {
         result.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 }
 
-func convert(incoming:String) -> Int {
-    return NSNumberFormatter().numberFromString(incoming)!.integerValue
+func convert(incoming:String) -> Double {
+    return NSNumberFormatter().numberFromString(incoming)!.doubleValue
 }
 
 var play : String = "Y";
 while (play.lowercaseString == "y") {
     print("Let me know what you want to calculate.");
+    
+    // Splits input into arrays
     let userInput : String = input()
     let userInputArr = userInput.componentsSeparatedByString(" ")
-    var result : Int = -1;
+    var result : Double = -1;
     var resultDouble : Double = -1.0;
     var avgStatus : Int = 0;
     
@@ -54,7 +56,7 @@ while (play.lowercaseString == "y") {
         } else if (expression == "%"){
             result = convert(userInputArr[0]) % convert(userInputArr[2])
         } else if (userInputArr[userInputArr.count-1] == "count"){
-            result = userInputArr.count-1;
+            result = Double(userInputArr.count)-1.0;
         } else if (userInputArr[userInputArr.count-1] == "avg"){
             var total = 0.0;
             for var i = 0; i <= userInputArr.count-2; i++ {
@@ -63,11 +65,19 @@ while (play.lowercaseString == "y") {
             resultDouble = Double(total/(Double(userInputArr.count)-1.0));
             avgStatus = 1;
         } else if (userInputArr[userInputArr.count-1] == "fact"){
-            var total = 1;
-            for var i = 1; i <= convert(userInputArr[0]); i++ {
+            var total : Double = 1.0;
+            var temp = convert(userInputArr[0]);
+            if(temp < 0){
+                temp = temp * -1
+            }
+            for var i = 1.0; i <= temp; i++ {
                 total *= i;
             }
+            
             result = total;
+            if(convert(userInputArr[0]) < 0){
+                result = -1.0 * total
+            }
         }
     } else {
         let firstnum = convert(userInputArr[0])
@@ -85,15 +95,20 @@ while (play.lowercaseString == "y") {
             result = firstnum % secondnum
         }
     }
-    
-    
-    if (result >= 0){
-        print("Result: \(result)");
-    } else if(avgStatus == 1){
+
+    // Converts double values to int if results are whole numbers. 
+    // Prints results.
+    if(avgStatus == 1){
         print("Result: \(resultDouble)");
+    } else if (result % 1 == 0){
+        var myIntValue : Int = Int(result)
+        print("Result: \(myIntValue)");
+    } else if (result % 1 != 0){
+        print("Result: \(result)");
     } else {
-        print ("Invalid result");
+        print("Please check your input");
     }
+    
     print("");
     print ("Calculate again?  Y/N")
     play = input()
