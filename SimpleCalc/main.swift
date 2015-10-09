@@ -14,7 +14,7 @@
 //  factorials use "fact", average use "avg", or to count the numbers use "count".
 //  Users can use these functions by following this syntax:
 //  "number number number...function" Ex: "2 4 6 8 10 avg" Results = 6.0.
-
+//  *** Supports Decimals and Negatives ***
 
 import Foundation
 
